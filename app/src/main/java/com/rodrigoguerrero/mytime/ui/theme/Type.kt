@@ -33,6 +33,12 @@ data class MyTimeTypography(
         fontSize = 25.sp,
         lineHeight =  28.sp,
         fontWeight = FontWeight.W400
+    ),
+    val H4: TextStyle = TextStyle(
+        fontFamily = Rubik,
+        fontSize = 20.sp,
+        lineHeight =  28.sp,
+        fontWeight = FontWeight.W400
     )
 )
 

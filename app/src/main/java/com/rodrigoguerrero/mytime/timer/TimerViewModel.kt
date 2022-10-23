@@ -13,17 +13,16 @@ class TimerViewModel : ViewModel() {
         private const val QUEUE_CAPACITY = 6
     }
 
-    private val _uiState =
-        MutableStateFlow(TimerUiState(totalTime = TotalTime(0, 0, 0)))
+    private val _uiState = MutableStateFlow(TimerUiState())
     val uiState: StateFlow<TimerUiState> = _uiState
 
     private val numberQueue = ArrayDeque<Int>(initialCapacity = QUEUE_CAPACITY)
 
     fun onNumberClicked(number: Int) {
         try {
-            if (numberQueue.size < QUEUE_CAPACITY) {
+            if (numberQueue.size < QUEUE_CAPACITY && !(number == 0 && numberQueue.size == 0)) {
                 numberQueue.addFirst(number)
-                _uiState.updateTotalTime(totalTime = getTotalTime())
+                _uiState.updateTotalTime(totalTime = getTotalTime(), numberQueue.size)
             }
         } catch (exception: IllegalStateException) {
             // NO-OP
@@ -38,8 +37,8 @@ class TimerViewModel : ViewModel() {
     fun onDeleteClicked() {
         if (numberQueue.size > 0) {
             numberQueue.removeFirst()
-            _uiState.updateTotalTime(totalTime = getTotalTime())
         }
+        _uiState.updateTotalTime(totalTime = getTotalTime(), numberQueue.size)
     }
 
     private fun getTotalTime() = TotalTime(
@@ -54,7 +53,7 @@ class TimerViewModel : ViewModel() {
 
         return when {
             tens != null && tens > 0 && units != null -> (tens * 10) + units
-            tens == null && units != null -> units
+            (tens == null || tens == 0) && units != null -> units
             else -> 0
         }
     }

@@ -1,10 +1,15 @@
+@file:OptIn(ExperimentalMaterial3Api::class, ExperimentalAnimationApi::class)
+
 package com.rodrigoguerrero.mytime.ui.timer
 
-import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.padding
-import androidx.compose.runtime.Composable
+import androidx.compose.animation.*
+import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.MoreVert
+import androidx.compose.material.icons.filled.PlayArrow
+import androidx.compose.material3.*
+import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
@@ -21,16 +26,70 @@ fun TimerScreen(
     onAddZerosClicked: () -> Unit,
     modifier: Modifier = Modifier
 ) {
-    Column(
-        modifier = modifier.fillMaxWidth(),
-        verticalArrangement = Arrangement.Center,
-        horizontalAlignment = Alignment.CenterHorizontally
+    Scaffold(
+        containerColor = MyTimeTheme.color.background,
+        topBar = {
+            Row(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(vertical = 16.dp, horizontal = 32.dp)
+            ) {
+                Text(
+                    text = "Timer",
+                    style = MyTimeTheme.typography.H4.copy(color = MyTimeTheme.color.onBackground)
+                )
+                Spacer(modifier = Modifier.weight(1f))
+                Icon(
+                    imageVector = Icons.Filled.MoreVert,
+                    contentDescription = "",
+                    tint = MyTimeTheme.color.onBackground
+                )
+            }
+        },
+        bottomBar = {}
     ) {
-        TotalTime(
-            totalTime = uiState.totalTime,
-            modifier = Modifier.padding(vertical = 48.dp)
-        )
-        NumbersPad(onNumberClicked, onDeleteClicked, onAddZerosClicked)
+        Column(
+            modifier = modifier
+                .fillMaxSize()
+                .padding(top = it.calculateTopPadding(), bottom = it.calculateBottomPadding()),
+            verticalArrangement = Arrangement.Center,
+            horizontalAlignment = Alignment.CenterHorizontally
+        ) {
+            TotalTime(
+                totalTime = uiState.totalTime,
+                hasSeconds = uiState.hasSeconds,
+                hasMinutes = uiState.hasMinutes,
+                hasHours = uiState.hasHours,
+                modifier = Modifier.padding(vertical = 48.dp)
+            )
+            NumbersPad(onNumberClicked, onDeleteClicked, onAddZerosClicked)
+
+            Row(modifier = Modifier
+                .padding(top = 16.dp)
+                .height(90.dp)
+            ) {
+                AnimatedVisibility(
+                    visible = uiState.isCtaVisible,
+                    enter = scaleIn(),
+                    exit = scaleOut()
+                ) {
+
+                    FloatingActionButton(
+                        onClick = { /*TODO*/ },
+                        modifier = Modifier.size(90.dp),
+                        containerColor = MyTimeTheme.color.primary,
+                        contentColor = MyTimeTheme.color.background,
+                        shape = CircleShape
+                    ) {
+                        Icon(
+                            imageVector = Icons.Filled.PlayArrow,
+                            contentDescription = "",
+                            tint = MyTimeTheme.color.background
+                        )
+                    }
+                }
+            }
+        }
     }
 }
 
@@ -39,7 +98,7 @@ fun TimerScreen(
 private fun PreviewTimerScreen() {
     MyTimeTheme {
         TimerScreen(
-            uiState = TimerUiState(totalTime = TotalTime(0, 0, 0)),
+            uiState = TimerUiState(totalTime = TotalTime(0, 0, 0), false),
             onDeleteClicked = {},
             onAddZerosClicked = {},
             onNumberClicked = {})

@@ -8,7 +8,6 @@ import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -19,25 +18,37 @@ import com.rodrigoguerrero.mytime.ui.theme.MyTimeTheme
 @Composable
 fun TotalTime(
     totalTime: TotalTime,
+    hasHours: Boolean,
+    hasMinutes: Boolean,
+    hasSeconds: Boolean,
     modifier: Modifier = Modifier
 ) {
     Row(
         modifier = modifier,
         horizontalArrangement = Arrangement.spacedBy(16.dp)
     ) {
-        TimeUnit(time = totalTime.displayHours, unit = R.string.hours_unit)
-        TimeUnit(time = totalTime.displayMinutes, unit = R.string.minutes_unit)
-        TimeUnit(time = totalTime.displaySeconds, unit = R.string.seconds_unit)
+        TimeUnit(time = totalTime.displayHours, unit = R.string.hours_unit, hasValue = hasHours)
+        TimeUnit(
+            time = totalTime.displayMinutes,
+            unit = R.string.minutes_unit,
+            hasValue = hasMinutes
+        )
+        TimeUnit(
+            time = totalTime.displaySeconds,
+            unit = R.string.seconds_unit,
+            hasValue = hasSeconds
+        )
     }
 }
 
 @Composable
 private fun TimeUnit(
     time: String,
+    hasValue: Boolean,
     @StringRes unit: Int,
     modifier: Modifier = Modifier,
 ) {
-    val color = if (time != "00") {
+    val color = if (hasValue) {
         MyTimeTheme.color.primary
     } else {
         MyTimeTheme.color.onBackground
@@ -63,7 +74,7 @@ private fun TimeUnit(
 @Composable
 private fun PreviewTimeUnit() {
     MyTimeTheme {
-        TimeUnit(time = "00", unit = R.string.hours_unit)
+        TimeUnit(time = "00", unit = R.string.hours_unit, hasValue = false)
     }
 }
 
@@ -71,6 +82,11 @@ private fun PreviewTimeUnit() {
 @Composable
 private fun PreviewTotalTime() {
     MyTimeTheme {
-        TotalTime(totalTime = TotalTime(0, 0, 0))
+        TotalTime(
+            totalTime = TotalTime(0, 0, 0),
+            hasSeconds = false,
+            hasMinutes = false,
+            hasHours = false
+        )
     }
 }
