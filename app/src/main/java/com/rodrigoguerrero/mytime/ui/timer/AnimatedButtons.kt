@@ -9,8 +9,6 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Icon
-import androidx.compose.material.MaterialTheme
-import androidx.compose.material.Surface
 import androidx.compose.material.Text
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Backspace
@@ -26,16 +24,23 @@ import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
-import com.rodrigoguerrero.mytime.ui.theme.MytimeTheme
+import com.rodrigoguerrero.mytime.ui.theme.MyTimeTheme
 
 @Composable
 fun NumberButton(
     number: String,
     modifier: Modifier = Modifier,
-    size: Dp = 64.dp
+    size: Dp = 92.dp
 ) {
-    AnimatedButton(size = size, modifier = modifier) {
-        Text(text = number)
+    AnimatedButton(
+        size = size,
+        background = MyTimeTheme.color.surface,
+        modifier = modifier
+    ) {
+        Text(
+            text = number,
+            style = MyTimeTheme.typography.H1.copy(color = MyTimeTheme.color.onSurface)
+        )
     }
 }
 
@@ -45,9 +50,13 @@ fun IconAnimatedButton(
     tint: Color,
     contentDescription: String,
     modifier: Modifier = Modifier,
-    size: Dp = 64.dp
+    size: Dp = 92.dp
 ) {
-    AnimatedButton(size = size, modifier = modifier) {
+    AnimatedButton(
+        size = size,
+        modifier = modifier,
+        background = MyTimeTheme.color.surface
+    ) {
         Icon(
             imageVector = icon,
             contentDescription = contentDescription,
@@ -59,6 +68,7 @@ fun IconAnimatedButton(
 @Composable
 private fun AnimatedButton(
     size: Dp,
+    background: Color,
     modifier: Modifier = Modifier,
     content: @Composable () -> Unit
 ) {
@@ -71,42 +81,38 @@ private fun AnimatedButton(
         size / 2
     }
     val cornerRadiusAnim = animateDpAsState(targetValue = cornerRadius)
-    Surface(
+
+    Box(
         modifier = modifier
-            .clip(RoundedCornerShape(cornerRadiusAnim.value))
             .size(size)
+            .clip(RoundedCornerShape(cornerRadiusAnim.value))
+            .clickable(
+                interactionSource = interactionSource,
+                indication = rememberRipple()
+            ) {}
+            .background(background),
+        contentAlignment = Alignment.Center
     ) {
-        Box(
-            modifier = Modifier
-                .size(size)
-                .clickable(
-                    interactionSource = interactionSource,
-                    indication = rememberRipple()
-                ) {}
-                .background(Color.Blue),
-            contentAlignment = Alignment.Center
-        ) {
-            content()
-        }
+        content()
     }
 }
 
-@Preview(showBackground = true)
+@Preview(showBackground = true, backgroundColor = 0x00000000)
 @Composable
 private fun PreviewNumberButton() {
-    MytimeTheme {
+    MyTimeTheme {
         NumberButton(number = "1")
     }
 }
 
-@Preview(showBackground = true)
+@Preview(showBackground = true, backgroundColor = 0x00000000)
 @Composable
 private fun PreviewIconButton() {
-    MytimeTheme {
+    MyTimeTheme {
         IconAnimatedButton(
             icon = Icons.Filled.Backspace,
             contentDescription = "",
-            tint = MaterialTheme.colors.onSecondary
+            tint = MyTimeTheme.color.onSurface
         )
     }
 }

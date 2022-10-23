@@ -1,8 +1,16 @@
 package com.rodrigoguerrero.mytime.ui.theme
 
+import androidx.compose.runtime.Immutable
+import androidx.compose.runtime.staticCompositionLocalOf
 import androidx.compose.ui.graphics.Color
 
-val Purple200 = Color(0xFFBB86FC)
-val Purple500 = Color(0xFF6200EE)
-val Purple700 = Color(0xFF3700B3)
-val Teal200 = Color(0xFF03DAC5)
+@Immutable
+data class MyTimeColors(
+    val background: Color = Color(0x00000000),
+    val surface: Color = Color(0xFF202429),
+
+    val onSurface: Color = Color(0xFFFFFFFF),
+    val onBackground: Color = Color(0xBFFFFFFF)
+)
+
+val LocalMyTimeColors = staticCompositionLocalOf { MyTimeColors() }
