@@ -6,6 +6,7 @@ import androidx.compose.ui.graphics.Color
 
 @Immutable
 data class MyTimeColors(
+    val primary: Color = Color(0xFFFFB86C),
     val background: Color = Color(0x00000000),
     val surface: Color = Color(0xFF202429),
 

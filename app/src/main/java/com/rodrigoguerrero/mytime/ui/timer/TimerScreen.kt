@@ -26,7 +26,10 @@ fun TimerScreen(
         verticalArrangement = Arrangement.Center,
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
-        TotalTime(totalTime = uiState.totalTime, modifier = Modifier.padding(vertical = 48.dp))
+        TotalTime(
+            totalTime = uiState.totalTime,
+            modifier = Modifier.padding(vertical = 48.dp)
+        )
         NumbersPad(onNumberClicked, onDeleteClicked, onAddZerosClicked)
     }
 }

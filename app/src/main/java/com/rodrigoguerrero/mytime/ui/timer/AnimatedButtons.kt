@@ -41,7 +41,7 @@ fun TextButton(
     ) {
         Text(
             text = text,
-            style = MyTimeTheme.typography.H1.copy(color = MyTimeTheme.color.onSurface)
+            style = MyTimeTheme.typography.H2.copy(color = MyTimeTheme.color.onSurface)
         )
     }
 }
@@ -61,7 +61,7 @@ fun NumberButton(
     ) {
         Text(
             text = number.toString(),
-            style = MyTimeTheme.typography.H1.copy(color = MyTimeTheme.color.onSurface)
+            style = MyTimeTheme.typography.H2.copy(color = MyTimeTheme.color.onSurface)
         )
     }
 }

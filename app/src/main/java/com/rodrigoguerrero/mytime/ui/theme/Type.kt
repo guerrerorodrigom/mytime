@@ -15,11 +15,16 @@ private val Rubik = FontFamily(
 )
 
 @Immutable
-@Suppress("kotlin:S117")
 data class MyTimeTypography(
     val H1: TextStyle = TextStyle(
         fontFamily = Rubik,
         fontSize = 50.sp,
+        lineHeight =  28.sp,
+        fontWeight = FontWeight.W400
+    ),
+    val H2: TextStyle = TextStyle(
+        fontFamily = Rubik,
+        fontSize = 35.sp,
         lineHeight =  28.sp,
         fontWeight = FontWeight.W400
     ),

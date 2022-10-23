@@ -13,7 +13,8 @@ class TimerViewModel : ViewModel() {
         private const val QUEUE_CAPACITY = 6
     }
 
-    private val _uiState = MutableStateFlow(TimerUiState(totalTime = TotalTime(0, 0, 0)))
+    private val _uiState =
+        MutableStateFlow(TimerUiState(totalTime = TotalTime(0, 0, 0)))
     val uiState: StateFlow<TimerUiState> = _uiState
 
     private val numberQueue = ArrayDeque<Int>(initialCapacity = QUEUE_CAPACITY)

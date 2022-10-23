@@ -8,6 +8,7 @@ import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -22,7 +23,7 @@ fun TotalTime(
 ) {
     Row(
         modifier = modifier,
-        horizontalArrangement = Arrangement.spacedBy(8.dp)
+        horizontalArrangement = Arrangement.spacedBy(16.dp)
     ) {
         TimeUnit(time = totalTime.displayHours, unit = R.string.hours_unit)
         TimeUnit(time = totalTime.displayMinutes, unit = R.string.minutes_unit)
@@ -34,8 +35,13 @@ fun TotalTime(
 private fun TimeUnit(
     time: String,
     @StringRes unit: Int,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
 ) {
+    val color = if (time != "00") {
+        MyTimeTheme.color.primary
+    } else {
+        MyTimeTheme.color.onBackground
+    }
     Row(
         modifier = modifier,
         horizontalArrangement = Arrangement.spacedBy(2.dp),
@@ -43,11 +49,11 @@ private fun TimeUnit(
     ) {
         Text(
             text = time,
-            style = MyTimeTheme.typography.H1.copy(color = MyTimeTheme.color.onBackground)
+            style = MyTimeTheme.typography.H1.copy(color = color)
         )
         Text(
             text = stringResource(id = unit),
-            style = MyTimeTheme.typography.H3.copy(color = MyTimeTheme.color.onBackground),
+            style = MyTimeTheme.typography.H3.copy(color = color),
             modifier = Modifier.padding(bottom = 8.dp)
         )
     }
