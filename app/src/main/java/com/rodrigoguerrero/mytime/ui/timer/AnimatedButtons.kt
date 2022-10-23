@@ -27,18 +27,40 @@ import androidx.compose.ui.unit.dp
 import com.rodrigoguerrero.mytime.ui.theme.MyTimeTheme
 
 @Composable
-fun NumberButton(
-    number: String,
+fun TextButton(
+    text: String,
+    onClicked: () -> Unit,
     modifier: Modifier = Modifier,
     size: Dp = 92.dp
 ) {
     AnimatedButton(
         size = size,
         background = MyTimeTheme.color.surface,
-        modifier = modifier
+        modifier = modifier,
+        onClicked = onClicked
     ) {
         Text(
-            text = number,
+            text = text,
+            style = MyTimeTheme.typography.H1.copy(color = MyTimeTheme.color.onSurface)
+        )
+    }
+}
+
+@Composable
+fun NumberButton(
+    number: Int,
+    onNumberClicked: (Int) -> Unit,
+    modifier: Modifier = Modifier,
+    size: Dp = 92.dp
+) {
+    AnimatedButton(
+        size = size,
+        background = MyTimeTheme.color.surface,
+        modifier = modifier,
+        onClicked = { onNumberClicked(number) }
+    ) {
+        Text(
+            text = number.toString(),
             style = MyTimeTheme.typography.H1.copy(color = MyTimeTheme.color.onSurface)
         )
     }
@@ -49,13 +71,15 @@ fun IconAnimatedButton(
     icon: ImageVector,
     tint: Color,
     contentDescription: String,
+    onClicked: () -> Unit,
     modifier: Modifier = Modifier,
     size: Dp = 92.dp
 ) {
     AnimatedButton(
         size = size,
         modifier = modifier,
-        background = MyTimeTheme.color.surface
+        background = MyTimeTheme.color.surface,
+        onClicked = onClicked
     ) {
         Icon(
             imageVector = icon,
@@ -69,6 +93,7 @@ fun IconAnimatedButton(
 private fun AnimatedButton(
     size: Dp,
     background: Color,
+    onClicked: () -> Unit,
     modifier: Modifier = Modifier,
     content: @Composable () -> Unit
 ) {
@@ -89,7 +114,7 @@ private fun AnimatedButton(
             .clickable(
                 interactionSource = interactionSource,
                 indication = rememberRipple()
-            ) {}
+            ) { onClicked() }
             .background(background),
         contentAlignment = Alignment.Center
     ) {
@@ -101,7 +126,7 @@ private fun AnimatedButton(
 @Composable
 private fun PreviewNumberButton() {
     MyTimeTheme {
-        NumberButton(number = "1")
+        NumberButton(number = 1, onNumberClicked = { })
     }
 }
 
@@ -112,7 +137,8 @@ private fun PreviewIconButton() {
         IconAnimatedButton(
             icon = Icons.Filled.Backspace,
             contentDescription = "",
-            tint = MyTimeTheme.color.onSurface
+            tint = MyTimeTheme.color.onSurface,
+            onClicked = { }
         )
     }
 }

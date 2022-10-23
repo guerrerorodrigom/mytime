@@ -15,6 +15,9 @@ import com.rodrigoguerrero.mytime.ui.theme.MyTimeTheme
 
 @Composable
 fun NumbersPad(
+    onNumberClicked: (Int) -> Unit,
+    onDeleteClicked: () -> Unit,
+    onAddZerosClicked: () -> Unit,
     modifier: Modifier = Modifier
 ) {
     Column(
@@ -22,32 +25,37 @@ fun NumbersPad(
         verticalArrangement = Arrangement.spacedBy(2.dp),
         modifier = modifier
     ) {
-        NumberRow(1, 3)
-        NumberRow(4, 6)
-        NumberRow(7, 9)
+        NumberRow(1, 3, onNumberClicked = onNumberClicked)
+        NumberRow(4, 6, onNumberClicked = onNumberClicked)
+        NumberRow(7, 9, onNumberClicked = onNumberClicked)
         Row(
             verticalAlignment = Alignment.CenterVertically,
             horizontalArrangement = Arrangement.spacedBy(24.dp),
         ) {
-            NumberButton(number = "00")
-            NumberButton(number = "0")
+            TextButton(text = "00", onClicked = onAddZerosClicked)
+            NumberButton(number = 0, onNumberClicked = onNumberClicked)
             IconAnimatedButton(
                 icon = Icons.Filled.Backspace,
                 tint = Color.White,
-                contentDescription = ""
+                contentDescription = "",
+                onClicked = onDeleteClicked
             )
         }
     }
 }
 
 @Composable
-private fun NumberRow(start: Int, end: Int) {
+private fun NumberRow(
+    start: Int,
+    end: Int,
+    onNumberClicked: (Int) -> Unit
+) {
     Row(
         verticalAlignment = Alignment.CenterVertically,
         horizontalArrangement = Arrangement.spacedBy(24.dp),
     ) {
         for (i in start..end) {
-            NumberButton(number = i.toString())
+            NumberButton(number = i, onNumberClicked = onNumberClicked)
         }
     }
 }
@@ -56,6 +64,6 @@ private fun NumberRow(start: Int, end: Int) {
 @Composable
 private fun PreviewNumbers() {
     MyTimeTheme {
-        NumbersPad()
+        NumbersPad(onNumberClicked = {}, onAddZerosClicked = {}, onDeleteClicked = {})
     }
 }
