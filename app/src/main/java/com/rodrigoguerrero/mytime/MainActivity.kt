@@ -29,19 +29,19 @@ class MainActivity : ComponentActivity() {
                 ) { padding ->
                     NavHost(
                         navController = navController,
-                        startDestination = "timer-screen"
+                        startDestination = "timer_screen"
                     ) {
-                        composable("alarm-screen") {
+                        composable("alarm_screen") {
 
                         }
-                        composable("clock-screen") {
+                        composable("clock_screen") {
 
                         }
                         timerNavigation(navController = navController, padding = padding)
-                        composable("stopwatch-screen") {
+                        composable("stopwatch_screen") {
 
                         }
-                        composable("bedtime-screen") {
+                        composable("bedtime_screen") {
 
                         }
                     }

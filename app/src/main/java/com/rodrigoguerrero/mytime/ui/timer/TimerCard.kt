@@ -19,6 +19,7 @@ import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -26,13 +27,14 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import com.rodrigoguerrero.mytime.ui.timer.models.TimerItemState
 import com.rodrigoguerrero.mytime.ui.theme.MyTimeTheme
+import com.rodrigoguerrero.mytime.ui.timer.models.TimerItemState
 
 @Composable
 fun TimerCard(
     timerItemState: TimerItemState,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
+    onCloseClicked: (String) -> Unit
 ) {
     Card(
         modifier = modifier
@@ -47,7 +49,9 @@ fun TimerCard(
             modifier = Modifier.padding(all = 16.dp),
             verticalArrangement = Arrangement.spacedBy(16.dp)
         ) {
-            TimerCardHeader(timerItemState.label)
+            TimerCardHeader(
+                label = timerItemState.label,
+                onCloseClicked = { onCloseClicked(timerItemState.id) })
             Row(modifier = Modifier.fillMaxWidth()) {
                 CircularTimer(
                     remainingTime = timerItemState.remainingTime,
@@ -131,7 +135,10 @@ private fun PlusOneButton(
 }
 
 @Composable
-private fun TimerCardHeader(label: String) {
+private fun TimerCardHeader(
+    label: String,
+    onCloseClicked: () -> Unit
+) {
     Row(
         modifier = Modifier.fillMaxWidth(),
         verticalAlignment = Alignment.CenterVertically
@@ -145,13 +152,17 @@ private fun TimerCardHeader(label: String) {
             shape = CircleShape,
             color = MyTimeTheme.color.primary.copy(alpha = 0.5f),
         ) {
-            Icon(
-                imageVector = Icons.Filled.Close,
-                contentDescription = "",
+            IconButton(
+                onClick = onCloseClicked,
                 modifier = Modifier
                     .padding(all = 4.dp)
                     .size(16.dp)
-            )
+            ) {
+                Icon(
+                    imageVector = Icons.Filled.Close,
+                    contentDescription = "",
+                )
+            }
         }
     }
 }
@@ -165,8 +176,9 @@ private fun PreviewTimerCard() {
             remainingTime = 25,
             totalTime = 60,
             isPaused = true,
-            remainingTimeLabel = "5:00"
+            remainingTimeLabel = "5:00",
+            id = "id"
         )
-        TimerCard(timerItemState = timerItemState)
+        TimerCard(timerItemState = timerItemState, onCloseClicked = {})
     }
 }

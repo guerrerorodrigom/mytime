@@ -9,7 +9,14 @@ data class NumberPadUiState(
     val hasMinutes: Boolean = false,
     val hasHours: Boolean = false,
     val totalTime: TotalTime = TotalTime(0, 0, 0)
-)
+) {
+    val totalTimeInSeconds: Int
+        get() {
+            with(totalTime) {
+                return displaySeconds.toInt() + displayMinutes.toInt() * 60 + displayHours.toInt() * 3600
+            }
+        }
+}
 
 fun MutableStateFlow<NumberPadUiState>.updateTotalTime(totalTime: TotalTime, size: Int) {
     update {

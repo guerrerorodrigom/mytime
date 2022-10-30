@@ -23,7 +23,7 @@ import com.rodrigoguerrero.mytime.ui.timer.TimerFab
 fun NumberPadScreen(
     modifier: Modifier = Modifier,
     viewModel: NumberPadViewModel = hiltViewModel(),
-    onStartTimerClicked: () -> Unit,
+    onStartTimerClicked: (Int) -> Unit,
 ) {
     val uiState by viewModel.uiState.collectAsState()
     Scaffold(
@@ -31,7 +31,9 @@ fun NumberPadScreen(
         floatingActionButton = {
             TimerFab(
                 isVisible = uiState.isCtaVisible,
-                onClicked = onStartTimerClicked
+                onClicked =  {
+                    onStartTimerClicked(uiState.totalTimeInSeconds)
+                }
             )
         },
         floatingActionButtonPosition = FabPosition.Center
