@@ -1,19 +1,22 @@
-package com.rodrigoguerrero.mytime.timer
+package com.rodrigoguerrero.mytime.ui.timer.numberpad
 
 import androidx.lifecycle.ViewModel
-import com.rodrigoguerrero.mytime.ui.models.*
+import com.rodrigoguerrero.mytime.ui.timer.models.NumberPadUiState
+import com.rodrigoguerrero.mytime.ui.timer.models.updateTotalTime
+import dagger.hilt.android.lifecycle.HiltViewModel
+import javax.inject.Inject
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
-import kotlinx.coroutines.flow.update
 
-class TimerViewModel : ViewModel() {
+@HiltViewModel
+class NumberPadViewModel @Inject constructor() : ViewModel() {
 
     companion object {
         private const val QUEUE_CAPACITY = 6
     }
 
-    private val _uiState = MutableStateFlow(TimerUiState())
-    val uiState: StateFlow<TimerUiState> = _uiState
+    private val _uiState = MutableStateFlow(NumberPadUiState())
+    val uiState: StateFlow<NumberPadUiState> = _uiState
 
     private val numberQueue = ArrayDeque<Int>(initialCapacity = QUEUE_CAPACITY)
 
@@ -28,11 +31,6 @@ class TimerViewModel : ViewModel() {
         }
     }
 
-    fun onAddZerosClicked() {
-        onNumberClicked(0)
-        onNumberClicked(0)
-    }
-
     fun onDeleteClicked() {
         if (numberQueue.size > 0) {
             numberQueue.removeFirst()
@@ -40,11 +38,12 @@ class TimerViewModel : ViewModel() {
         _uiState.updateTotalTime(totalTime = getTotalTime(), numberQueue.size)
     }
 
-    fun onStart() {
-        _uiState.updateScreen(TimerScreen.TIMER)
+    fun onAddZerosClicked() {
+        onNumberClicked(0)
+        onNumberClicked(0)
     }
 
-    private fun getTotalTime() = TotalTime(
+    private fun getTotalTime() = com.rodrigoguerrero.mytime.ui.timer.models.TotalTime(
         seconds = getCurrent(0, 1),
         minutes = getCurrent(2, 3),
         hours = getCurrent(4, 5)

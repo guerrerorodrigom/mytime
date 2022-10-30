@@ -3,50 +3,48 @@ package com.rodrigoguerrero.mytime
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
-import androidx.activity.viewModels
-import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.runtime.collectAsState
-import androidx.compose.runtime.getValue
-import androidx.compose.ui.Modifier
-import com.rodrigoguerrero.mytime.timer.TimerViewModel
+import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.Scaffold
+import androidx.navigation.compose.NavHost
+import androidx.navigation.compose.composable
+import androidx.navigation.compose.rememberNavController
+import com.rodrigoguerrero.mytime.ui.common.TimerTopBar
 import com.rodrigoguerrero.mytime.ui.theme.MyTimeTheme
-import com.rodrigoguerrero.mytime.ui.timer.TimerScreen
+import com.rodrigoguerrero.mytime.ui.timer.timerNavigation
+import dagger.hilt.android.AndroidEntryPoint
 
+@OptIn(ExperimentalMaterial3Api::class)
+@AndroidEntryPoint
 class MainActivity : ComponentActivity() {
-    private val viewModel: CountDownViewModel by viewModels()
-    private val timerViewModel: TimerViewModel by viewModels()
-    private val timer = Timer(30000, 1000)
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
             MyTimeTheme {
-                val state by timerViewModel.uiState.collectAsState()
-                val millisUntilFinish by timer.millisUntilFinished.collectAsState()
-                Box(
-                    modifier = Modifier
-                        .fillMaxSize()
-                        .background(MyTimeTheme.color.background)
-                ) {
-                    TimerScreen(
-                        uiState = state,
-                        onNumberClicked = timerViewModel::onNumberClicked,
-                        onDeleteClicked = timerViewModel::onDeleteClicked,
-                        onAddZerosClicked = timerViewModel::onAddZerosClicked,
-                        onStartCountDown = timerViewModel::onStart,
-                        screen = state.timerScreen,
-                        onStart = { timer.start() },
-                        millisUntilFinished = millisUntilFinish.toInt()
-                    )
-//                            val tick by timer.millisUntilFinished.collectAsState()
-//
-//                            LaunchedEffect(key1 = Unit) {
-//                                timer.start()
-//                            }
-//
-//                            TimerUi(remainingTime = (tick / 1000).toInt(), totalTime = 30)
+                val navController = rememberNavController()
+                Scaffold(
+                    containerColor = MyTimeTheme.color.background,
+                    topBar = { TimerTopBar() },
+                    bottomBar = {},
+                ) { padding ->
+                    NavHost(
+                        navController = navController,
+                        startDestination = "timer-screen"
+                    ) {
+                        composable("alarm-screen") {
+
+                        }
+                        composable("clock-screen") {
+
+                        }
+                        timerNavigation(navController = navController, padding = padding)
+                        composable("stopwatch-screen") {
+
+                        }
+                        composable("bedtime-screen") {
+
+                        }
+                    }
                 }
             }
         }

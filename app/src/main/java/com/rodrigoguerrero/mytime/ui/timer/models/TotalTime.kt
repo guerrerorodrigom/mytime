@@ -1,4 +1,4 @@
-package com.rodrigoguerrero.mytime.ui.models
+package com.rodrigoguerrero.mytime.ui.timer.models
 
 data class TotalTime(
     private val seconds: Int,

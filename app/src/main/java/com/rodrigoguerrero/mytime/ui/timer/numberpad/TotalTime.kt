@@ -1,4 +1,4 @@
-package com.rodrigoguerrero.mytime.ui.timer
+package com.rodrigoguerrero.mytime.ui.timer.numberpad
 
 import androidx.annotation.StringRes
 import androidx.compose.foundation.layout.Arrangement
@@ -12,7 +12,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.rodrigoguerrero.mytime.R
-import com.rodrigoguerrero.mytime.ui.models.TotalTime
+import com.rodrigoguerrero.mytime.ui.timer.models.TotalTime
 import com.rodrigoguerrero.mytime.ui.theme.MyTimeTheme
 
 @Composable

@@ -1,4 +1,4 @@
-package com.rodrigoguerrero.mytime.ui.timer
+package com.rodrigoguerrero.mytime.ui.timer.numberpad
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -12,6 +12,9 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.rodrigoguerrero.mytime.ui.theme.MyTimeTheme
+import com.rodrigoguerrero.mytime.ui.common.IconAnimatedButton
+import com.rodrigoguerrero.mytime.ui.common.NumberButton
+import com.rodrigoguerrero.mytime.ui.common.TextButton
 
 @Composable
 fun NumbersPad(

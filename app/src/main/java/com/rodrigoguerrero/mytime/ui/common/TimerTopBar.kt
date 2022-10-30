@@ -1,4 +1,4 @@
-package com.rodrigoguerrero.mytime.ui.timer
+package com.rodrigoguerrero.mytime.ui.common
 
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
