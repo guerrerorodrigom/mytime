@@ -30,7 +30,7 @@ fun NumbersPad(
         NumberRow(7, 9, onNumberClicked = onNumberClicked)
         Row(
             verticalAlignment = Alignment.CenterVertically,
-            horizontalArrangement = Arrangement.spacedBy(24.dp),
+            horizontalArrangement = Arrangement.spacedBy(4.dp),
         ) {
             TextButton(text = "00", onClicked = onAddZerosClicked)
             NumberButton(number = 0, onNumberClicked = onNumberClicked)
@@ -38,7 +38,8 @@ fun NumbersPad(
                 icon = Icons.Filled.Backspace,
                 tint = Color.White,
                 contentDescription = "",
-                onClicked = onDeleteClicked
+                onClicked = onDeleteClicked,
+                background = MyTimeTheme.color.primary.copy(alpha = 0.4f)
             )
         }
     }
@@ -52,7 +53,7 @@ private fun NumberRow(
 ) {
     Row(
         verticalAlignment = Alignment.CenterVertically,
-        horizontalArrangement = Arrangement.spacedBy(24.dp),
+        horizontalArrangement = Arrangement.spacedBy(4.dp),
     ) {
         for (i in start..end) {
             NumberButton(number = i, onNumberClicked = onNumberClicked)

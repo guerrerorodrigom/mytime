@@ -8,8 +8,13 @@ data class TimerUiState(
     val isCtaVisible: Boolean = false,
     val hasSeconds: Boolean = false,
     val hasMinutes: Boolean = false,
-    val hasHours: Boolean = false
+    val hasHours: Boolean = false,
+    val timerScreen: TimerScreen = TimerScreen.NUMBER_PAD
 )
+
+enum class TimerScreen {
+    NUMBER_PAD, TIMER
+}
 
 fun MutableStateFlow<TimerUiState>.updateTotalTime(totalTime: TotalTime, size: Int) {
     update {
@@ -21,4 +26,8 @@ fun MutableStateFlow<TimerUiState>.updateTotalTime(totalTime: TotalTime, size: I
             hasHours = size > 4
         )
     }
+}
+
+fun MutableStateFlow<TimerUiState>.updateScreen(screen: TimerScreen) {
+    update { it.copy(timerScreen = screen) }
 }

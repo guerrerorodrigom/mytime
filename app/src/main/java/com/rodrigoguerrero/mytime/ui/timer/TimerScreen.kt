@@ -6,14 +6,15 @@ import androidx.compose.animation.*
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.MoreVert
 import androidx.compose.material.icons.filled.PlayArrow
 import androidx.compose.material3.*
-import androidx.compose.runtime.*
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import com.rodrigoguerrero.mytime.ui.models.TimerScreen
 import com.rodrigoguerrero.mytime.ui.models.TimerUiState
 import com.rodrigoguerrero.mytime.ui.models.TotalTime
 import com.rodrigoguerrero.mytime.ui.theme.MyTimeTheme
@@ -24,69 +25,52 @@ fun TimerScreen(
     onNumberClicked: (Int) -> Unit,
     onDeleteClicked: () -> Unit,
     onAddZerosClicked: () -> Unit,
-    modifier: Modifier = Modifier
+    onStartCountDown: () -> Unit,
+    onStart: () -> Unit,
+    modifier: Modifier = Modifier,
+    screen: TimerScreen,
+    millisUntilFinished: Int
 ) {
     Scaffold(
         containerColor = MyTimeTheme.color.background,
-        topBar = {
-            Row(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(vertical = 16.dp, horizontal = 32.dp)
-            ) {
-                Text(
-                    text = "Timer",
-                    style = MyTimeTheme.typography.H4.copy(color = MyTimeTheme.color.onBackground)
-                )
-                Spacer(modifier = Modifier.weight(1f))
-                Icon(
-                    imageVector = Icons.Filled.MoreVert,
-                    contentDescription = "",
-                    tint = MyTimeTheme.color.onBackground
-                )
-            }
-        },
-        bottomBar = {}
+        topBar = { TimerTopBar() },
+        bottomBar = {},
+        floatingActionButton = { ScreenFab(isVisible = uiState.isCtaVisible, onStartCountDown) },
+        floatingActionButtonPosition = FabPosition.Center
     ) {
-        Column(
+        Box(
             modifier = modifier
                 .fillMaxSize()
                 .padding(top = it.calculateTopPadding(), bottom = it.calculateBottomPadding()),
-            verticalArrangement = Arrangement.Center,
-            horizontalAlignment = Alignment.CenterHorizontally
         ) {
-            TotalTime(
-                totalTime = uiState.totalTime,
-                hasSeconds = uiState.hasSeconds,
-                hasMinutes = uiState.hasMinutes,
-                hasHours = uiState.hasHours,
-                modifier = Modifier.padding(vertical = 48.dp)
-            )
-            NumbersPad(onNumberClicked, onDeleteClicked, onAddZerosClicked)
-
-            Row(modifier = Modifier
-                .padding(top = 16.dp)
-                .height(90.dp)
+            Column(
+                modifier = modifier
+                    .fillMaxSize(),
+                horizontalAlignment = Alignment.CenterHorizontally
             ) {
-                AnimatedVisibility(
-                    visible = uiState.isCtaVisible,
-                    enter = scaleIn(),
-                    exit = scaleOut()
-                ) {
+                NumberPadScreen(
+                    modifier = Modifier.padding(bottom = 16.dp),
+                    uiState = uiState,
+                    onNumberClicked = onNumberClicked,
+                    onDeleteClicked = onDeleteClicked,
+                    onAddZerosClicked = onAddZerosClicked,
+                    isVisible = screen == TimerScreen.NUMBER_PAD
+                )
 
-                    FloatingActionButton(
-                        onClick = { /*TODO*/ },
-                        modifier = Modifier.size(90.dp),
-                        containerColor = MyTimeTheme.color.primary,
-                        contentColor = MyTimeTheme.color.background,
-                        shape = CircleShape
-                    ) {
-                        Icon(
-                            imageVector = Icons.Filled.PlayArrow,
-                            contentDescription = "",
-                            tint = MyTimeTheme.color.background
-                        )
+                AnimatedVisibility(
+                    visible = screen == TimerScreen.TIMER,
+                    enter = slideInVertically() + fadeIn(),
+                    exit = slideOutVertically()
+                ) {
+                    LaunchedEffect(key1 = Unit) {
+//                    onStart()
                     }
+
+                    TimerUi(
+                        modifier = Modifier.padding(bottom = 16.dp),
+                        remainingTime = (millisUntilFinished / 1000),
+                        totalTime = 30
+                    )
                 }
             }
         }
@@ -99,8 +83,13 @@ private fun PreviewTimerScreen() {
     MyTimeTheme {
         TimerScreen(
             uiState = TimerUiState(totalTime = TotalTime(0, 0, 0), false),
+            onNumberClicked = {},
             onDeleteClicked = {},
             onAddZerosClicked = {},
-            onNumberClicked = {})
+            onStartCountDown = {},
+            screen = TimerScreen.NUMBER_PAD,
+            millisUntilFinished = 0,
+            onStart = {}
+        )
     }
 }

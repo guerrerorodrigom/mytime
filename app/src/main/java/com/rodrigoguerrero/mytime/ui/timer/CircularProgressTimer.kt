@@ -43,77 +43,79 @@ fun TimerUi(
     shadowColor: Color = Color.LightGray,
     indicatorThickness: Dp = 24.dp
 ) {
-    Box(
-        modifier = modifier
-            .size(size),
-        contentAlignment = Alignment.Center
-    ) {
 
-        Canvas(
-            modifier = Modifier
-                .size(size)
-        ) {
-
-            // For shadow
-            drawCircle(
-                brush = Brush.radialGradient(
-                    colors = listOf(shadowColor, Color.White),
-                    center = Offset(x = this.size.width / 2, y = this.size.height / 2),
-                    radius = this.size.height / 2
-                ),
-                radius = this.size.height / 2,
-                center = Offset(x = this.size.width / 2, y = this.size.height / 2)
-            )
-
-            // This is the white circle that appears on the top of the shadow circle
-            drawCircle(
-                color = Color.White,
-                radius = (size / 2 - indicatorThickness).toPx(),
-                center = Offset(x = this.size.width / 2, y = this.size.height / 2)
-            )
-
-            // 360 - total time
-            //     - current
-            // Convert the dataUsage to angle
-            val sweepAngle = (remainingTime) * 360 / totalTime
-
-            // Foreground indicator
-            drawArc(
-                color = foregroundIndicatorColor,
-                startAngle = -90f,
-                sweepAngle = sweepAngle.toFloat(),
-                useCenter = false,
-                style = Stroke(width = indicatorThickness.toPx(), cap = StrokeCap.Round),
-                size = Size(
-                    width = (size - indicatorThickness).toPx(),
-                    height = (size - indicatorThickness).toPx()
-                ),
-                topLeft = Offset(
-                    x = (indicatorThickness / 2).toPx(),
-                    y = (indicatorThickness / 2).toPx()
-                )
-            )
-        }
-
-        Column(
-            verticalArrangement = Arrangement.Center,
-            horizontalAlignment = Alignment.CenterHorizontally
-        ) {
-
-            // Text that shows the number inside the circle
-            Text(
-                text = remainingTime.toString(),
-                style = MaterialTheme.typography.subtitle1
-            )
-
-            Spacer(modifier = Modifier.height(2.dp))
-
-            Text(
-                text = "Remaining",
-                style = MaterialTheme.typography.subtitle2
-            )
-        }
-    }
+    CircularProgressIndicator()
+//    Box(
+//        modifier = modifier
+//            .fillMaxSize(),
+//        contentAlignment = Alignment.Center
+//    ) {
+//
+//        Canvas(
+//            modifier = Modifier
+//                .size(size)
+//        ) {
+//
+//            // For shadow
+//            drawCircle(
+//                brush = Brush.radialGradient(
+//                    colors = listOf(shadowColor, Color.White),
+//                    center = Offset(x = this.size.width / 2, y = this.size.height / 2),
+//                    radius = this.size.height / 2
+//                ),
+//                radius = this.size.height / 2,
+//                center = Offset(x = this.size.width / 2, y = this.size.height / 2)
+//            )
+//
+//            // This is the white circle that appears on the top of the shadow circle
+//            drawCircle(
+//                color = Color.White,
+//                radius = (size / 2 - indicatorThickness).toPx(),
+//                center = Offset(x = this.size.width / 2, y = this.size.height / 2)
+//            )
+//
+//            // 360 - total time
+//            //     - current
+//            // Convert the dataUsage to angle
+//            val sweepAngle = (remainingTime) * 360 / totalTime
+//
+//            // Foreground indicator
+//            drawArc(
+//                color = foregroundIndicatorColor,
+//                startAngle = -90f,
+//                sweepAngle = sweepAngle.toFloat(),
+//                useCenter = false,
+//                style = Stroke(width = indicatorThickness.toPx(), cap = StrokeCap.Round),
+//                size = Size(
+//                    width = (size - indicatorThickness).toPx(),
+//                    height = (size - indicatorThickness).toPx()
+//                ),
+//                topLeft = Offset(
+//                    x = (indicatorThickness / 2).toPx(),
+//                    y = (indicatorThickness / 2).toPx()
+//                )
+//            )
+//        }
+//
+//        Column(
+//            verticalArrangement = Arrangement.Center,
+//            horizontalAlignment = Alignment.CenterHorizontally
+//        ) {
+//
+//            // Text that shows the number inside the circle
+//            Text(
+//                text = remainingTime.toString(),
+//                style = MaterialTheme.typography.subtitle1
+//            )
+//
+//            Spacer(modifier = Modifier.height(2.dp))
+//
+//            Text(
+//                text = "Remaining",
+//                style = MaterialTheme.typography.subtitle2
+//            )
+//        }
+//    }
 }
 
 @Composable

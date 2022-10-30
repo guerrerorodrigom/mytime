@@ -11,7 +11,6 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import com.rodrigoguerrero.mytime.timer.TimerViewModel
-import com.rodrigoguerrero.mytime.ui.models.TotalTime
 import com.rodrigoguerrero.mytime.ui.theme.MyTimeTheme
 import com.rodrigoguerrero.mytime.ui.timer.TimerScreen
 
@@ -24,14 +23,8 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         setContent {
             MyTimeTheme {
-//                val tick by timer.millisUntilFinished.collectAsState()
-//
-//                LaunchedEffect(key1 = Unit) {
-//                    timer.start()
-//                }
-//
-//                TimerUi(remainingTime = (tick / 1000).toInt(), totalTime = 30)
                 val state by timerViewModel.uiState.collectAsState()
+                val millisUntilFinish by timer.millisUntilFinished.collectAsState()
                 Box(
                     modifier = Modifier
                         .fillMaxSize()
@@ -41,8 +34,19 @@ class MainActivity : ComponentActivity() {
                         uiState = state,
                         onNumberClicked = timerViewModel::onNumberClicked,
                         onDeleteClicked = timerViewModel::onDeleteClicked,
-                        onAddZerosClicked = timerViewModel::onAddZerosClicked
+                        onAddZerosClicked = timerViewModel::onAddZerosClicked,
+                        onStartCountDown = timerViewModel::onStart,
+                        screen = state.timerScreen,
+                        onStart = { timer.start() },
+                        millisUntilFinished = millisUntilFinish.toInt()
                     )
+//                            val tick by timer.millisUntilFinished.collectAsState()
+//
+//                            LaunchedEffect(key1 = Unit) {
+//                                timer.start()
+//                            }
+//
+//                            TimerUi(remainingTime = (tick / 1000).toInt(), totalTime = 30)
                 }
             }
         }

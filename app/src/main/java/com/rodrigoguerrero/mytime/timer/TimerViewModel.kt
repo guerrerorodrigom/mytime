@@ -1,11 +1,10 @@
 package com.rodrigoguerrero.mytime.timer
 
 import androidx.lifecycle.ViewModel
-import com.rodrigoguerrero.mytime.ui.models.TimerUiState
-import com.rodrigoguerrero.mytime.ui.models.TotalTime
-import com.rodrigoguerrero.mytime.ui.models.updateTotalTime
+import com.rodrigoguerrero.mytime.ui.models.*
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.update
 
 class TimerViewModel : ViewModel() {
 
@@ -39,6 +38,10 @@ class TimerViewModel : ViewModel() {
             numberQueue.removeFirst()
         }
         _uiState.updateTotalTime(totalTime = getTotalTime(), numberQueue.size)
+    }
+
+    fun onStart() {
+        _uiState.updateScreen(TimerScreen.TIMER)
     }
 
     private fun getTotalTime() = TotalTime(

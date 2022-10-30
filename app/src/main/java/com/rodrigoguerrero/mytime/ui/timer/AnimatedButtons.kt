@@ -1,5 +1,6 @@
 package com.rodrigoguerrero.mytime.ui.timer
 
+import androidx.compose.animation.animateColorAsState
 import androidx.compose.animation.core.animateDpAsState
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -37,7 +38,8 @@ fun TextButton(
         size = size,
         background = MyTimeTheme.color.surface,
         modifier = modifier,
-        onClicked = onClicked
+        onClicked = onClicked,
+        backgroundPressed = MyTimeTheme.color.onBackground.copy(alpha = 0.25f)
     ) {
         Text(
             text = text,
@@ -57,7 +59,8 @@ fun NumberButton(
         size = size,
         background = MyTimeTheme.color.surface,
         modifier = modifier,
-        onClicked = { onNumberClicked(number) }
+        onClicked = { onNumberClicked(number) },
+        backgroundPressed = MyTimeTheme.color.onBackground.copy(alpha = 0.25f)
     ) {
         Text(
             text = number.toString(),
@@ -73,13 +76,15 @@ fun IconAnimatedButton(
     contentDescription: String,
     onClicked: () -> Unit,
     modifier: Modifier = Modifier,
-    size: Dp = 92.dp
+    size: Dp = 92.dp,
+    background: Color = MyTimeTheme.color.surface
 ) {
     AnimatedButton(
         size = size,
         modifier = modifier,
-        background = MyTimeTheme.color.surface,
-        onClicked = onClicked
+        background = background,
+        onClicked = onClicked,
+        backgroundPressed = background
     ) {
         Icon(
             imageVector = icon,
@@ -93,15 +98,22 @@ fun IconAnimatedButton(
 private fun AnimatedButton(
     size: Dp,
     background: Color,
+    backgroundPressed: Color,
     onClicked: () -> Unit,
     modifier: Modifier = Modifier,
     content: @Composable () -> Unit
 ) {
     val interactionSource = remember { MutableInteractionSource() }
     val isPressed by interactionSource.collectIsPressedAsState()
-
+    val color = animateColorAsState(
+        targetValue = if (isPressed) {
+            backgroundPressed
+        } else {
+            background
+        }
+    )
     val cornerRadius = if (isPressed) {
-        12.dp
+        24.dp
     } else {
         size / 2
     }
@@ -115,7 +127,7 @@ private fun AnimatedButton(
                 interactionSource = interactionSource,
                 indication = rememberRipple()
             ) { onClicked() }
-            .background(background),
+            .background(color.value),
         contentAlignment = Alignment.Center
     ) {
         content()
@@ -138,7 +150,7 @@ private fun PreviewIconButton() {
             icon = Icons.Filled.Backspace,
             contentDescription = "",
             tint = MyTimeTheme.color.onSurface,
-            onClicked = { }
+            onClicked = { },
         )
     }
 }
