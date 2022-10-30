@@ -8,7 +8,7 @@ import androidx.compose.material3.Scaffold
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
-import com.rodrigoguerrero.mytime.ui.common.TimerTopBar
+import com.rodrigoguerrero.mytime.ui.common.AppTopBar
 import com.rodrigoguerrero.mytime.ui.theme.MyTimeTheme
 import com.rodrigoguerrero.mytime.ui.timer.timerNavigation
 import dagger.hilt.android.AndroidEntryPoint
@@ -24,7 +24,7 @@ class MainActivity : ComponentActivity() {
                 val navController = rememberNavController()
                 Scaffold(
                     containerColor = MyTimeTheme.color.background,
-                    topBar = { TimerTopBar() },
+                    topBar = { AppTopBar() },
                     bottomBar = {},
                 ) { padding ->
                     NavHost(

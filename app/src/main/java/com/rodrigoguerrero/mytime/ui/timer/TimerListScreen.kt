@@ -3,6 +3,7 @@
 package com.rodrigoguerrero.mytime.ui.timer
 
 import android.annotation.SuppressLint
+import androidx.annotation.StringRes
 import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.foundation.gestures.Orientation
 import androidx.compose.foundation.gestures.scrollable
@@ -20,15 +21,19 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
+import com.rodrigoguerrero.mytime.R
+import com.rodrigoguerrero.mytime.ui.common.AppTopBar
 import com.rodrigoguerrero.mytime.ui.theme.MyTimeTheme
 
 @OptIn(ExperimentalMaterial3Api::class)
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 @Composable
 fun TimerListScreen(
+    @StringRes screenName: Int,
     firstTimerTimeInSeconds: Int?,
     navigateToNumberPadScreen: () -> Unit,
     modifier: Modifier = Modifier,
@@ -43,6 +48,7 @@ fun TimerListScreen(
         navigateToNumberPadScreen()
     }
     Scaffold(
+        topBar = { AppTopBar(stringResource(id = screenName)) },
         floatingActionButton = {},
         floatingActionButtonPosition = FabPosition.Center,
         containerColor = MyTimeTheme.color.background
@@ -67,6 +73,10 @@ fun TimerListScreen(
 @Composable
 private fun PreviewTimerScreen() {
     MyTimeTheme {
-        TimerListScreen(firstTimerTimeInSeconds = 0, navigateToNumberPadScreen = {})
+        TimerListScreen(
+            firstTimerTimeInSeconds = 0,
+            navigateToNumberPadScreen = {},
+            screenName = R.string.timer_screen
+        )
     }
 }

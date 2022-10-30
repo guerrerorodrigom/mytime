@@ -14,14 +14,16 @@ import androidx.compose.ui.unit.dp
 import com.rodrigoguerrero.mytime.ui.theme.MyTimeTheme
 
 @Composable
-fun TimerTopBar() {
+fun AppTopBar(
+    screenName: String
+) {
     Row(
         modifier = Modifier
             .fillMaxWidth()
             .padding(vertical = 16.dp, horizontal = 32.dp)
     ) {
         Text(
-            text = "Timer",
+            text = screenName,
             style = MyTimeTheme.typography.H4.copy(color = MyTimeTheme.color.onBackground)
         )
         Spacer(modifier = Modifier.weight(1f))

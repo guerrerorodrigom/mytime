@@ -4,4 +4,6 @@
   <string name="hours_unit">h</string>
   <string name="minutes_unit">m</string>
   <string name="seconds_unit">s</string>
+
+  <string name="timer_screen">Timer</string>
 </resources>
